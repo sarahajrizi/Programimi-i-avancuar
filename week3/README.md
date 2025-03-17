@@ -191,6 +191,10 @@ It allows you to see how the functions work without providing a CSV file via the
 
 ---
 
+## Screenshoots of terminal
+
+![alt text](image.png)
+
 ## License
 (Include a license here if you want to distribute your code under a specific license, e.g., MIT, Apache 2.0, etc.)
 
