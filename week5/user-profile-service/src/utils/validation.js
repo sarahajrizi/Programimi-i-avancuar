@@ -1,20 +1,10 @@
-const Joi = require('joi');
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
-const userSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
-  name: Joi.string().required(),
-  address: Joi.object({
-    street: Joi.string().required(),
-    city: Joi.string().required(),
-    zipCode: Joi.string().required(),
-    country: Joi.string().required()
-  }).required()
-});
+const isStrongPassword = (password) => {
+  return password.length >= 8;
+};
 
-const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().required()
-});
-
-module.exports = { userSchema, loginSchema };
+module.exports = { isValidEmail, isStrongPassword };

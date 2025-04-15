@@ -1,23 +1,13 @@
 const express = require('express');
+const { createUserController, getUserByIdController, updateUserController, getCurrentUserController } = require('../controllers/userController');
+const { authenticateToken } = require('../middleware/authMiddleware');
+
 const router = express.Router();
-const {
-  register,
-  getUser,
-  getCurrentUser,
-  updateUserDetails
-} = require('../controllers/userController');
-const authenticate = require('../middleware/authMiddleware');
 
-// POST /users - Regjistro përdorues
-router.post('/', register);
-
-// GET /users/:id - Merr përdoruesin sipas ID (autentikim kërkohet)
-router.get('/:id', authenticate, getUser);
-
-// PUT /users/:id - Përditëso të dhënat (autentikim kërkohet)
-router.put('/:id', authenticate, updateUserDetails);
-
-// GET /users/me - Merr profilin e përdoruesit aktual
-router.get('/me', authenticate, getCurrentUser);
+// Routes for users
+router.post('/users', createUserController); // Create user
+router.get('/users/:id', authenticateToken, getUserByIdController); // Get user by ID
+router.put('/users/:id', authenticateToken, updateUserController); // Update user
+router.get('/users/me', authenticateToken, getCurrentUserController); // Get current user profile
 
 module.exports = router;
