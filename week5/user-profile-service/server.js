@@ -8,11 +8,11 @@ app.use(express.json());
 
 // ✅ Supabase konfigurimi
 const supabaseUrl = 'https://wxsktbfkltjzkkwzrucq.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4c2t0YmZrbHRqemtrd3pydWNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQyNzM0NzgsImV4cCI6MjA1OTg0OTQ3OH0.HT0dMhTjqe_LFAQhUDa-POPykLX02UyVwIy4HZ723sE'; // ruaje me .env për siguri
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4c2t0YmZrbHRqemtrd3pydWNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQyNzM0NzgsImV4cCI6MjA1OTg0OTQ3OH0.HT0dMhTjqe_LFAQhUDa-POPykLX02UyVwIy4HZ723sE';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const PORT = process.env.PORT || 3000;
-const SECRET_KEY = 'jwt_secret_key'; // ruaje në .env për prodhim
+const SECRET_KEY = 'jwt_secret_key';
 
 // ✅ Middleware për verifikimin e tokenit
 function authenticateToken(req, res, next) {
@@ -116,6 +116,27 @@ app.get('/users/me', authenticateToken, async (req, res) => {
   res.json(users[0]);
 });
 
+// ✅ Merr përdorues sipas ID
+app.get('/users/:id', authenticateToken, async (req, res) => {
+  const userId = req.params.id;
+
+  const { data: users, error } = await supabase
+    .from('users')
+    .select('id, name, email, created_at, last_login')
+    .eq('id', userId)
+    .limit(1);
+
+  if (error) {
+    return res.status(500).json({ error: 'Database error', details: error.message });
+  }
+
+  if (!users || users.length === 0) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  res.json(users[0]);
+});
+
 // ✅ Health Check
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK' });
@@ -125,4 +146,3 @@ app.get('/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-

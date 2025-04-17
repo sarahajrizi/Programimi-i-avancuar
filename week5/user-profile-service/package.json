@@ -4,22 +4,23 @@
     "description": "Microservice for managing user profiles with authentication, validation, and Supabase integration.",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js",
-      "test": "jest"
+        "start": "node server.js",
+        "test": "jest"
     },
     "keywords": [],
     "author": "Sara Hajrizi",
     "license": "ISC",
     "dependencies": {
-      "bcrypt": "^5.1.1",
-      "express": "^5.1.0",
-      "joi": "^17.13.3",
-      "jsonwebtoken": "^9.0.2",
-      "uuid": "^11.1.0"
+        "@supabase/supabase-js": "^2.49.4",
+        "bcrypt": "^5.1.1",
+        "bcryptjs": "^3.0.2",
+        "express": "^5.1.0",
+        "joi": "^17.13.3",
+        "jsonwebtoken": "^9.0.2",
+        "uuid": "^11.1.0"
     },
     "devDependencies": {
-      "jest": "^29.6.2",
-      "supertest": "^6.3.3"
+        "jest": "^29.6.2",
+        "supertest": "^6.3.3"
     }
-  }
-  
+}
